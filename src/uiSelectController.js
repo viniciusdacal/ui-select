@@ -43,7 +43,7 @@ uis.controller('uiSelectCtrl',
   if (ctrl.searchInput.length !== 1) {
     throw uiSelectMinErr('searchInput', "Expected 1 input.ui-select-search but got '{0}'.", ctrl.searchInput.length);
   }
-  
+
   ctrl.isEmpty = function() {
     return angular.isUndefined(ctrl.selected) || ctrl.selected === null || ctrl.selected === '';
   };
@@ -528,10 +528,10 @@ uis.controller('uiSelectCtrl',
         }
       }
       if ( hasTag ) dupeIndex = _findApproxDupe(ctrl.selected, newItem);
-      
+
       var isSlice = true;
       if (ctrl.searchComparable) {
-          for(var i=0, item; item = items[i++];) {
+          for(var i=0; item = items[i++];) {
               if (newItem[ctrl.searchComparable] === item[ctrl.searchComparable]) {
                  if (dupeIndex < 0) {
                      dupeIndex = 0;
