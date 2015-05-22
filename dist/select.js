@@ -1,7 +1,7 @@
 /*!
  * ui-select
  * http://github.com/angular-ui/ui-select
- * Version: 0.11.2 - 2015-05-19T14:16:04.953Z
+ * Version: 0.11.2 - 2015-05-22T19:29:37.261Z
  * License: MIT
  */
 
@@ -279,7 +279,7 @@ uis.controller('uiSelectCtrl',
   if (ctrl.searchInput.length !== 1) {
     throw uiSelectMinErr('searchInput', "Expected 1 input.ui-select-search but got '{0}'.", ctrl.searchInput.length);
   }
-  
+
   ctrl.isEmpty = function() {
     return angular.isUndefined(ctrl.selected) || ctrl.selected === null || ctrl.selected === '';
   };
@@ -764,9 +764,24 @@ uis.controller('uiSelectCtrl',
         }
       }
       if ( hasTag ) dupeIndex = _findApproxDupe(ctrl.selected, newItem);
+
+      var isSlice = true;
+      if (ctrl.searchComparable) {
+          for(var i=0; item = items[i++];) {
+              if (newItem[ctrl.searchComparable] === item[ctrl.searchComparable]) {
+                 if (dupeIndex < 0) {
+                     dupeIndex = 0;
+                     isSlice = false;
+                 }
+              }
+          }
+      }
+
       // dupe found, shave the first item
       if ( dupeIndex > -1 ) {
-        items = items.slice(dupeIndex+1,items.length-1);
+          if (isSlice) {
+            items = items.slice(dupeIndex+1,items.length-1);
+          }
       } else {
         items = [];
         items.push(newItem);
@@ -918,6 +933,7 @@ uis.directive('uiSelect',
 
         $select.onSelectCallback = $parse(attrs.onSelect);
         $select.onRemoveCallback = $parse(attrs.onRemove);
+	$select.searchComparable = attrs.searchComparable;
         
         //Set reference to ngModel from uiSelectCtrl
         $select.ngModel = ngModel;

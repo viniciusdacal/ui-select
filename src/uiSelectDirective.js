@@ -43,6 +43,7 @@ uis.directive('uiSelect',
 
         $select.onSelectCallback = $parse(attrs.onSelect);
         $select.onRemoveCallback = $parse(attrs.onRemove);
+	$select.searchComparable = attrs.searchComparable;
         
         //Set reference to ngModel from uiSelectCtrl
         $select.ngModel = ngModel;
