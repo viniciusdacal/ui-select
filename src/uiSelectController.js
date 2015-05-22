@@ -528,9 +528,24 @@ uis.controller('uiSelectCtrl',
         }
       }
       if ( hasTag ) dupeIndex = _findApproxDupe(ctrl.selected, newItem);
+      
+      var isSlice = true;
+      if (ctrl.searchComparable) {
+          for(var i=0, item; item = items[i++];) {
+              if (newItem[ctrl.searchComparable] === item[ctrl.searchComparable]) {
+                 if (dupeIndex < 0) {
+                     dupeIndex = 0;
+                     isSlice = false;
+                 }
+              }
+          }
+      }
+
       // dupe found, shave the first item
       if ( dupeIndex > -1 ) {
-        items = items.slice(dupeIndex+1,items.length-1);
+          if (isSlice) {
+            items = items.slice(dupeIndex+1,items.length-1);
+          }
       } else {
         items = [];
         items.push(newItem);
